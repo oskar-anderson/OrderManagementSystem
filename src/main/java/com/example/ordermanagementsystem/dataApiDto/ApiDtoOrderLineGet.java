@@ -12,14 +12,14 @@ public class ApiDtoOrderLineGet {
     public UUID id;
 
     @NotNull
-    private Integer quantity;
+    public Integer quantity;
 
     @NotNull
-    private float productUnitPrice;
+    public float productUnitPrice;
 
     @NotNull
-    private String productSKU;
+    public String productSKU;
 
     @NotNull
-    private UUID productId;
+    public UUID productId;
 }

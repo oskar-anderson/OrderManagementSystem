@@ -12,14 +12,14 @@ public class ApiDtoCustomerGet {
     public UUID id;
 
     @NotNull
-    private String registrationCode;
+    public String registrationCode;
 
     @NotNull
-    private String fullName;
+    public String fullName;
 
     @NotNull
-    private String email;
+    public String email;
 
     @NotNull
-    private String phoneNumber;
+    public String phoneNumber;
 }

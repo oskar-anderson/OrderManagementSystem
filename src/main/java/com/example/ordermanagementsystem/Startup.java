@@ -150,7 +150,7 @@ public class Startup implements ApplicationListener<ApplicationReadyEvent>  {
 
             final List<CSVRecord> csvOrderLineRecords;
             try (final CSVParser p = CSVParser.parse(
-                    resourceLoader.getResource("classpath:data/orderLines.csv").getFile(),
+                    resourceLoader.getResource("classpath:data/orderLine.csv").getFile(),
                     StandardCharsets.UTF_8,
                     CSVFormat.RFC4180)) {
                 csvOrderLineRecords = p.getRecords();
@@ -172,7 +172,7 @@ public class Startup implements ApplicationListener<ApplicationReadyEvent>  {
             orderLineRepository.saveAll(orderLines);
             log.info("order lines added");
 
-            log.info("Data has been seeded!");
+            log.info("Seed data will be committed now!");
         }
     }
 }

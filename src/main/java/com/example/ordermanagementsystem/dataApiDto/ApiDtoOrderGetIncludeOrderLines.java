@@ -2,6 +2,7 @@ package com.example.ordermanagementsystem.dataApiDto;
 
 import com.example.ordermanagementsystem.dataDomain.DomainCustomer;
 import com.example.ordermanagementsystem.dataDomain.DomainOrderLine;
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import lombok.Builder;
@@ -16,8 +17,8 @@ public class ApiDtoOrderGetIncludeOrderLines {
     @NotNull
     public UUID id;
 
-    @Null
-    private OffsetDateTime submittedDate;
+    @Nullable
+    public OffsetDateTime submittedDate;
 
 
     // ---------------------- reference navigational properties along with physical FK property block ----------------------
@@ -25,13 +26,13 @@ public class ApiDtoOrderGetIncludeOrderLines {
     /**
      * Deleted user will be null
      */
-    @Null
-    private UUID customerId;
+    @Nullable
+    public UUID customerId;
 
 
 
     // ---------------------- collection navigational (inverse) properties block ----------------------
 
     @NotNull
-    private List<ApiDtoOrderLineGet> orderLines;
+    public List<ApiDtoOrderLineGet> orderLines;
 }

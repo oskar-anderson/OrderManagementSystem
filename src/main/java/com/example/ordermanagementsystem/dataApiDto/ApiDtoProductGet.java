@@ -13,17 +13,17 @@ public class ApiDtoProductGet {
     public UUID id;
 
     @NotNull
-    private String name;
+    public String name;
 
     @NotNull
-    private String skuCode;
+    public String skuCode;
 
     @NotNull
-    private String unitPrice;
+    public String unitPrice;
 
     @NotNull
-    private OffsetDateTime startDate;
+    public OffsetDateTime startDate;
 
     @NotNull
-    private OffsetDateTime endDate;
+    public OffsetDateTime endDate;
 }

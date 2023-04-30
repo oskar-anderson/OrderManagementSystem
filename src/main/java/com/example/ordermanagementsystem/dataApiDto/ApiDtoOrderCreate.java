@@ -1,5 +1,6 @@
 package com.example.ordermanagementsystem.dataApiDto;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import lombok.Getter;
@@ -15,15 +16,15 @@ public class ApiDtoOrderCreate {
     /**
      * It is not necessary to include id field. If id is not provided a random one will be generated.
      */
-    @Null
-    private UUID id = UUID.randomUUID();
+    @Nullable
+    public UUID id = UUID.randomUUID();
 
-    @Null
-    private OffsetDateTime submittedDate;
-
-    @NotNull
-    private UUID customerId;
+    @Nullable
+    public OffsetDateTime submittedDate;
 
     @NotNull
-    private List<ApiDtoOrderLineCreate> orderLines;
+    public UUID customerId;
+
+    @NotNull
+    public List<ApiDtoOrderLineCreate> orderLines;
 }

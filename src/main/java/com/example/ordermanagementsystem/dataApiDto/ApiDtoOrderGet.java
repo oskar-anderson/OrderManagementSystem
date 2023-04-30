@@ -1,6 +1,7 @@
 package com.example.ordermanagementsystem.dataApiDto;
 
 import com.example.ordermanagementsystem.dataDomain.DomainCustomer;
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import lombok.Builder;
@@ -15,8 +16,8 @@ public class ApiDtoOrderGet {
     @NotNull
     public UUID id;
 
-    @Null
-    private OffsetDateTime submittedDate;
+    @Nullable
+    public OffsetDateTime submittedDate;
 
 
 
@@ -25,6 +26,6 @@ public class ApiDtoOrderGet {
     /**
      * Deleted user will be null
      */
-    @Null
-    private UUID customerId;
+    @Nullable
+    public UUID customerId;
 }

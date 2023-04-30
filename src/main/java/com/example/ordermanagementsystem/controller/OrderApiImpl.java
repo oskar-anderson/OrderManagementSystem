@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.example.ordermanagementsystem.mapper.OrderMapper;
 
 import java.time.OffsetDateTime;
@@ -18,39 +18,46 @@ import java.util.UUID;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("api/v1/order/")
 public class OrderApiImpl {
 
     private final OrderMapper orderMapper = new OrderMapper();
 
     private final OrderService orderService;
 
+    @RequestMapping(value = "get-all", method = RequestMethod.GET)
     public ResponseEntity<List<ApiDtoOrderGet>> getOrders() {
         val domainOrders = orderService.getAll();
         val dtoOrders = domainOrders.stream().map(orderMapper::domainToApiDto).toList();
         return ResponseEntity.ok(dtoOrders);
     }
 
-
-    public ResponseEntity<ApiDtoOrderGet> getOrder(UUID id) {
+    @RequestMapping(value = "get", method = RequestMethod.GET)
+    public ResponseEntity<ApiDtoOrderGet> getOrder(@RequestParam UUID id) {
         val domainOrder = orderService.get(id);
         val dtoOrder = orderMapper.domainToApiDto(domainOrder);
         return ResponseEntity.ok(dtoOrder);
     }
 
-    public ResponseEntity<ApiDtoOrderGet> createOrder(ApiDtoOrderCreate dto) {
+    @RequestMapping(value = "create", method = RequestMethod.POST)
+    public ResponseEntity<ApiDtoOrderGet> createOrder(@RequestBody ApiDtoOrderCreate dto) {
         val domainOrder = orderMapper.apiDtoCreateToDomain(dto);
         val saveOrder = orderService.save(domainOrder);
         val saveOrderDto = orderMapper.domainToApiDto(saveOrder);
         return ResponseEntity.ok(saveOrderDto);
     }
 
-    public ResponseEntity<List<ApiDtoOrderGetIncludeOrderLines>> getOrdersBetweenDates(OffsetDateTime date1Inclusive, OffsetDateTime date2NonInclusive) {
+
+    @RequestMapping(value = "get-orders-between-dates", method = RequestMethod.GET)
+    public ResponseEntity<List<ApiDtoOrderGetIncludeOrderLines>> getOrdersBetweenDates(@RequestParam OffsetDateTime date1Inclusive, @RequestParam OffsetDateTime date2NonInclusive) {
         val domainOrders = orderService.getAllBetweenIncludeOrderLines(date1Inclusive, date2NonInclusive);
         val dtoOrders = domainOrders.stream().map(orderMapper::domainToApiDtoIncludeOrderLines).toList();
         return ResponseEntity.ok(dtoOrders);
     }
 
-    public ResponseEntity<ApiDtoOrderGet> markSubmitted(UUID id, OffsetDateTime submittedDate) {
+
+    @RequestMapping(value = "mark-submitted", method = RequestMethod.PATCH)
+    public ResponseEntity<ApiDtoOrderGet> markSubmitted(@RequestParam UUID id, @RequestParam OffsetDateTime submittedDate) {
         val domainOrder = orderService.get(id);
         domainOrder.setSubmittedDate(submittedDate);
         val domainOrderAfterSaving = orderService.save(domainOrder);

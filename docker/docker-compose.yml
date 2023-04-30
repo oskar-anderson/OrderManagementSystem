@@ -1,0 +1,20 @@
+version: '3.9'
+
+services:
+  db:
+    image: "postgres:15.2-bullseye"
+    container_name: order-management-system-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+    ports:
+      # <Port exposed> : <Db port running inside container>
+      - "5445:5432"
+    volumes:
+      # Where our data will be persisted
+      - postgres-volume-2023-order-management-system:/var/lib/mysql
+# Names our volume
+volumes:
+  postgres-volume-2023-order-management-system:

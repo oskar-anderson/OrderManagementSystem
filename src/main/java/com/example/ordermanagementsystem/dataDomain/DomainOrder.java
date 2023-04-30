@@ -1,5 +1,6 @@
 package com.example.ordermanagementsystem.dataDomain;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
@@ -20,7 +21,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldNameConstants
-@Table(name = "order")
+@Table(name = "orderr") // order is keyword
 public class DomainOrder {
     @Id
     @Builder.Default
@@ -30,7 +31,7 @@ public class DomainOrder {
      * If this is null then order is mutable (like changing OrderLine.quantity).
      * TODO! possible to send emails to customers asking them to finish their order when submittedDate is null.
      */
-    @Null
+    @Nullable
     private OffsetDateTime submittedDate;
 
 
@@ -39,7 +40,7 @@ public class DomainOrder {
     /**
      * Deleted user will be null
      */
-    @Null
+    @Nullable
     @Column(name = "customer_id")
     private UUID customerId;
 

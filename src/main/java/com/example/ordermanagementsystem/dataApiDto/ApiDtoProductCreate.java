@@ -1,10 +1,10 @@
 package com.example.ordermanagementsystem.dataApiDto;
 
 import com.example.ordermanagementsystem.dataDomain.DomainOrderLine;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
+import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -19,21 +19,24 @@ public class ApiDtoProductCreate {
     /**
      * It is not necessary to include id field. If id is not provided a random one will be generated.
      */
-    @Null
-    private UUID id = UUID.randomUUID();
+    @Nullable
+    public UUID id = UUID.randomUUID();
 
     @NotNull
-    private String name;
+    @Size(min = 2, max = 255)
+    public String name;
 
     @NotNull
-    private String skuCode;
+    @Pattern(regexp = "\\b[0-9a-f]{4}-[0-9a-f]{4}\\b", message = "Invalid product SKU code pattern!")
+    public String skuCode;
 
     @NotNull
-    private String unitPrice;
+    @Positive
+    public String unitPrice;
 
     @NotNull
-    private OffsetDateTime startDate = OffsetDateTime.now();
+    public OffsetDateTime startDate = OffsetDateTime.now();
 
     @NotNull
-    private OffsetDateTime endDate = OffsetDateTime.MAX;
+    public OffsetDateTime endDate = OffsetDateTime.MAX;
 }

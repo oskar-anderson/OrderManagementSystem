@@ -1,7 +1,7 @@
 package com.example.ordermanagementsystem.dataApiDto;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 
 import java.util.UUID;
@@ -12,18 +12,21 @@ public class ApiDtoOrderLineCreate {
     /**
      * It is not necessary to include id field. If id is not provided a random one will be generated.
      */
-    @Null
-    private UUID id = UUID.randomUUID();
+    @Nullable
+    public UUID id = UUID.randomUUID();
 
     @NotNull
-    private Integer quantity;
+    @Min(0)
+    public Integer quantity;
 
     @NotNull
-    private float productUnitPrice;
+    @Positive
+    public float productUnitPrice;
 
     @NotNull
-    private String productSKU;
+    @Pattern(regexp = "\\b[0-9a-f]{4}-[0-9a-f]{4}\\b", message = "Invalid product SKU code pattern!")
+    public String productSKU;
 
     @NotNull
-    private UUID productId;
+    public UUID productId;
 }

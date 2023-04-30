@@ -1,7 +1,7 @@
 package com.example.ordermanagementsystem.dataApiDto;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -13,18 +13,22 @@ public class ApiDtoCustomerCreate {
     /**
      * It is not necessary to include id field. If id is not provided a random one will be generated.
      */
-    @Null
-    private UUID id = UUID.randomUUID();
+    @Nullable
+    public UUID id = UUID.randomUUID();
 
     @NotNull
-    private String registrationCode;
+    @Pattern(regexp = "\\b[0-9a-f]{4}-[0-9a-f]{4}\\b", message = "Invalid registration code pattern!")
+    public String registrationCode;
 
     @NotNull
-    private String fullName;
+    @Size(min = 1, max = 64, message = "Invalid person name!")
+    public String fullName;
 
     @NotNull
-    private String email;
+    @Email(message = "Invalid person email!")
+    public String email;
 
     @NotNull
-    private String phoneNumber;
+    @Size(min = 7, max = 10, message = "Invalid phone number!")
+    public String phoneNumber;
 }
