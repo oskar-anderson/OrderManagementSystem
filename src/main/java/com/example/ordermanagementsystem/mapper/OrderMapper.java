@@ -33,7 +33,7 @@ public class OrderMapper {
 
     public DomainOrder apiDtoCreateToDomain(ApiDtoOrderCreate dto) {
         return DomainOrder.builder()
-                .id(dto.getId())
+                .id(UUID.randomUUID())
                 .submittedDate(dto.getSubmittedDate())
                 .customerId(dto.getCustomerId())
                 .build();

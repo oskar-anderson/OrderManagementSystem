@@ -9,12 +9,6 @@ import java.util.UUID;
 @Getter
 public class ApiDtoOrderLineCreate {
 
-    /**
-     * It is not necessary to include id field. If id is not provided a random one will be generated.
-     */
-    @Nullable
-    public UUID id = UUID.randomUUID();
-
     @NotNull
     @Min(0)
     public Integer quantity;
@@ -29,4 +23,7 @@ public class ApiDtoOrderLineCreate {
 
     @NotNull
     public UUID productId;
+
+    @NotNull
+    public UUID orderId;
 }

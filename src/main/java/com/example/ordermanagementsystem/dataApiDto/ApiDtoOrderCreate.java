@@ -13,12 +13,6 @@ import java.util.UUID;
 @Getter
 public class ApiDtoOrderCreate {
 
-    /**
-     * It is not necessary to include id field. If id is not provided a random one will be generated.
-     */
-    @Nullable
-    public UUID id = UUID.randomUUID();
-
     @Nullable
     public OffsetDateTime submittedDate;
 

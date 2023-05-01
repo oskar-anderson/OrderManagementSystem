@@ -2,11 +2,13 @@ package com.example.ordermanagementsystem.service;
 
 import com.example.ordermanagementsystem.dataDomain.DomainOrderLine;
 import com.example.ordermanagementsystem.repository.OrderLineRepository;
+import com.example.ordermanagementsystem.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Slf4j
@@ -14,7 +16,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class OrderLineService {
 
-    private OrderLineRepository repo;
+    private final OrderLineRepository repo;
+    private final ProductService productService;
 
     public DomainOrderLine getOrderLine(UUID id) {
         return repo.findById(id).orElseThrow();
@@ -29,7 +32,14 @@ public class OrderLineService {
         return this.save(order);
     }
 
+    public void delete(UUID id) {
+        repo.deleteById(id);
+    }
+
     public DomainOrderLine save(DomainOrderLine orderLine) {
+        if (productService.get(orderLine.getProductId()).getEndDate().isAfter(OffsetDateTime.now())) {
+            throw new IllegalStateException("This product is not for sale anymore!");
+        }
         return repo.save(orderLine);
     }
 }

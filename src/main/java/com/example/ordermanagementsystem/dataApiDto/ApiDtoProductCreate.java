@@ -15,13 +15,6 @@ import java.util.UUID;
 
 @Getter
 public class ApiDtoProductCreate {
-
-    /**
-     * It is not necessary to include id field. If id is not provided a random one will be generated.
-     */
-    @Nullable
-    public UUID id = UUID.randomUUID();
-
     @NotNull
     @Size(min = 2, max = 255)
     public String name;

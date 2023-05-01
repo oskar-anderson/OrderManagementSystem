@@ -1,14 +1,12 @@
 package com.example.ordermanagementsystem.dataApiDto;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
 import java.util.UUID;
 
 @Builder
-public class ApiDtoOrderLineGet {
-
+public class ApiDtoOrderLineGetIncludeOrder {
     @NotNull
     public UUID id;
 
@@ -26,4 +24,7 @@ public class ApiDtoOrderLineGet {
 
     @NotNull
     public UUID orderId;
+
+    @NotNull
+    public ApiDtoOrderGet order;
 }

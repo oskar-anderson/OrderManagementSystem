@@ -2,6 +2,7 @@ package com.example.ordermanagementsystem.controller;
 
 import com.example.ordermanagementsystem.dataApiDto.ApiDtoCustomerCreate;
 import com.example.ordermanagementsystem.dataApiDto.ApiDtoCustomerGet;
+import com.example.ordermanagementsystem.dataApiDto.ApiDtoCustomerGetIncludeOrderThenIncludeOrderLine;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
 
@@ -14,6 +15,8 @@ public interface CustomerApi {
 
 
     public ResponseEntity<ApiDtoCustomerGet> getCustomer(UUID id);
+
+    public ResponseEntity<ApiDtoCustomerGetIncludeOrderThenIncludeOrderLine> getIncludeOrderThenIncludeOrderLine(UUID id);
 
 
     public ResponseEntity<ApiDtoCustomerGet> createCustomer(ApiDtoCustomerCreate dto);

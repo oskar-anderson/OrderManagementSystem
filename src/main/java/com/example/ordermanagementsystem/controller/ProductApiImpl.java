@@ -2,6 +2,7 @@ package com.example.ordermanagementsystem.controller;
 
 import com.example.ordermanagementsystem.dataApiDto.ApiDtoProductCreate;
 import com.example.ordermanagementsystem.dataApiDto.ApiDtoProductGet;
+import com.example.ordermanagementsystem.dataApiDto.ApiDtoProductGetIncludeOrderLineThenIncludeOrder;
 import com.example.ordermanagementsystem.mapper.ProductMapper;
 import com.example.ordermanagementsystem.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.val;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,7 +19,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/product")
-public class ProductImpl implements Product {
+public class ProductApiImpl implements ProductApi {
 
     private final ProductMapper mapper = new ProductMapper();
 
@@ -40,10 +42,26 @@ public class ProductImpl implements Product {
     }
 
     @Override
+    @RequestMapping(value = "get-include-order-lines-then-include-order", method = RequestMethod.GET)
+    public ResponseEntity<ApiDtoProductGetIncludeOrderLineThenIncludeOrder> getIncludeOrderLinesThenIncludeOrder(@RequestParam UUID id) {
+        val orderLinesDomain = repo.getIncludeOrderLinesThenIncludeOrder(id);
+        val orderLinesResponse = mapper.domainToApiDtoIncludeOrderLineThenIncludeOrder(orderLinesDomain);
+        return ResponseEntity.ok(orderLinesResponse);
+    }
+
+    @Override
     @RequestMapping(value = "create", method = RequestMethod.POST)
     public ResponseEntity<ApiDtoProductGet> create(@RequestBody ApiDtoProductCreate dto) {
         val domain = mapper.apiDtoCreateToDomain(dto);
         val domainSaved = repo.save(domain);
+        val dtoResponse = mapper.domainToApiDto(domainSaved);
+        return ResponseEntity.ok(dtoResponse);
+    }
+
+    @Override
+    @RequestMapping(value = "soft-delete", method = RequestMethod.POST)
+    public ResponseEntity<ApiDtoProductGet> setExpired(@RequestParam UUID id) {
+        val domainSaved = repo.softDelete(id, OffsetDateTime.now());
         val dtoResponse = mapper.domainToApiDto(domainSaved);
         return ResponseEntity.ok(dtoResponse);
     }

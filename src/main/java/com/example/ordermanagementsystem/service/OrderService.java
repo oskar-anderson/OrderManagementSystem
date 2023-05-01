@@ -24,11 +24,6 @@ public class OrderService {
     private final OrderRepository repo;
     private final OrderLineRepository repoOrderLine;
 
-    private final SessionFactory sessionFactory;
-
-    @Autowired
-    private EntityManager entityManager;
-
     @Transactional
     public DomainOrder save(DomainOrder item) {
         repoOrderLine.saveAll(item.getOrderLines());
@@ -38,6 +33,10 @@ public class OrderService {
 
     public DomainOrder get(UUID id) {
         return repo.findById(id).orElseThrow();
+    }
+
+    public DomainOrder getIncludeOrderLines(UUID id) {
+        return repo.findByIdIncludeOrderLines(id);
     }
 
     public List<DomainOrder> getAll() {
