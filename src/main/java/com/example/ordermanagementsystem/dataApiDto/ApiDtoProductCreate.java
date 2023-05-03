@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Getter
+@Builder
 public class ApiDtoProductCreate {
     @NotNull
     @Size(min = 2, max = 255)
@@ -25,7 +26,7 @@ public class ApiDtoProductCreate {
 
     @NotNull
     @Positive
-    public String unitPrice;
+    public Float unitPrice;
 
     @NotNull
     public OffsetDateTime startDate = OffsetDateTime.now();

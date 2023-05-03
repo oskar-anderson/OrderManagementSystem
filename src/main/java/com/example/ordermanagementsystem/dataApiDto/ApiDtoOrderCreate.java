@@ -3,6 +3,7 @@ package com.example.ordermanagementsystem.dataApiDto;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.time.OffsetDateTime;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Getter
+@Builder
 public class ApiDtoOrderCreate {
 
     @Nullable
@@ -20,5 +22,5 @@ public class ApiDtoOrderCreate {
     public UUID customerId;
 
     @NotNull
-    public List<ApiDtoOrderLineCreate> orderLines;
+    public List<ApiDtoOrderLineCreateChild> orderLines;
 }

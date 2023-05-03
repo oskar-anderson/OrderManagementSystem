@@ -1,7 +1,9 @@
 package com.example.ordermanagementsystem.dataApiDto;
 
-import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -9,7 +11,7 @@ import java.util.UUID;
 
 @Getter
 @Builder
-public class ApiDtoOrderLineCreate {
+public class ApiDtoOrderLineCreateChild {
 
     @NotNull
     @Min(0)
@@ -25,7 +27,4 @@ public class ApiDtoOrderLineCreate {
 
     @NotNull
     public UUID productId;
-
-    @NotNull
-    public UUID orderId;
 }

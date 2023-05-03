@@ -1,29 +1,22 @@
-package com.example.ordermanagementsystem.dataDomain;
+package com.example.ordermanagementsystem.dataDal;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 import lombok.*;
-import lombok.experimental.FieldNameConstants;
 
 import java.time.OffsetDateTime;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 
 @Getter
 @Setter
-@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@FieldNameConstants
-@Table(name = "product")
-public class DomainProduct {
+public class DalProduct {
 
-    @Id
+
     @Builder.Default
     private UUID id = UUID.randomUUID();
 
@@ -56,10 +49,7 @@ public class DomainProduct {
 
     // ---------------------- collection navigational (inverse) properties block ----------------------
 
-    @OneToMany(
-            mappedBy = DomainOrderLine.Fields.product
-    )
     @Builder.Default
-    private Set<DomainOrderLine> orderLines = new HashSet<>();
+    private Set<DalOrderLine> orderLines = new HashSet<>();
 
 }

@@ -11,4 +11,6 @@ public interface OrderLineApi {
     ResponseEntity<Void> setQuantity(UUID id, int quantity);
 
     ResponseEntity<ApiDtoOrderLineGet> addOrderLine(ApiDtoOrderLineCreate orderLine);
+
+    ResponseEntity<ApiDtoOrderLineGet> get(UUID id);
 }

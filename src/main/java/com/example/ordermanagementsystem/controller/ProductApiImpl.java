@@ -5,6 +5,7 @@ import com.example.ordermanagementsystem.dataApiDto.ApiDtoProductGet;
 import com.example.ordermanagementsystem.dataApiDto.ApiDtoProductGetIncludeOrderLineThenIncludeOrder;
 import com.example.ordermanagementsystem.mapper.ProductMapper;
 import com.example.ordermanagementsystem.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -28,8 +29,11 @@ public class ProductApiImpl implements ProductApi {
     @Override
     @RequestMapping(value = "get", method = RequestMethod.GET)
     public ResponseEntity<ApiDtoProductGet> get(@RequestParam UUID id) {
-        val domain = repo.get(id);
-        val dtoResponse = mapper.domainToApiDto(domain);
+        val domainProduct = repo.get(id);
+        if (domainProduct == null) {
+            return ResponseEntity.notFound().build();
+        }
+        val dtoResponse = mapper.domainToApiDto(domainProduct);
         return ResponseEntity.ok(dtoResponse);
     }
 
@@ -51,7 +55,7 @@ public class ProductApiImpl implements ProductApi {
 
     @Override
     @RequestMapping(value = "create", method = RequestMethod.POST)
-    public ResponseEntity<ApiDtoProductGet> create(@RequestBody ApiDtoProductCreate dto) {
+    public ResponseEntity<ApiDtoProductGet> create(@Valid @RequestBody ApiDtoProductCreate dto) {
         val domain = mapper.apiDtoCreateToDomain(dto);
         val domainSaved = repo.save(domain);
         val dtoResponse = mapper.domainToApiDto(domainSaved);

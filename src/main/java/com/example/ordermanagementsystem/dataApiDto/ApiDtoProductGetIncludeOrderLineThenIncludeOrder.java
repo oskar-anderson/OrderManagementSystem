@@ -21,7 +21,7 @@ public class ApiDtoProductGetIncludeOrderLineThenIncludeOrder {
     public String skuCode;
 
     @NotNull
-    public String unitPrice;
+    public Float unitPrice;
 
     @NotNull
     public OffsetDateTime startDate;

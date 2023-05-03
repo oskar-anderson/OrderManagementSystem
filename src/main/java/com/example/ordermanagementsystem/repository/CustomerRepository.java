@@ -11,6 +11,7 @@ public interface CustomerRepository extends JpaRepository<DomainCustomer, UUID> 
 
     @Query("select c from DomainCustomer c " +
             "left join fetch c.customerOrders co " +
+            "left join fetch co.orderLines " +
             "where c.id = :id")
-    DomainCustomer getIncludeOrder(@Param("id") UUID id);
+    DomainCustomer getIncludeOrderThenIncludeOrderLine(@Param("id") UUID id);
 }

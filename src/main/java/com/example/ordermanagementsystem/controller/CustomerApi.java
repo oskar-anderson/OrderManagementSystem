@@ -11,13 +11,13 @@ import java.util.UUID;
 
 public interface CustomerApi {
 
-    public ResponseEntity<List<ApiDtoCustomerGet>> getCustomers();
+    ResponseEntity<List<ApiDtoCustomerGet>> getCustomers();
 
 
-    public ResponseEntity<ApiDtoCustomerGet> getCustomer(UUID id);
+    ResponseEntity<ApiDtoCustomerGet> getCustomer(UUID id);
 
-    public ResponseEntity<ApiDtoCustomerGetIncludeOrderThenIncludeOrderLine> getIncludeOrderThenIncludeOrderLine(UUID id);
+    ResponseEntity<ApiDtoCustomerGetIncludeOrderThenIncludeOrderLine> getIncludeOrderThenIncludeOrderLine(UUID id);
 
 
-    public ResponseEntity<ApiDtoCustomerGet> createCustomer(ApiDtoCustomerCreate dto);
+    ResponseEntity<ApiDtoCustomerGet> createCustomer(ApiDtoCustomerCreate dto);
 }

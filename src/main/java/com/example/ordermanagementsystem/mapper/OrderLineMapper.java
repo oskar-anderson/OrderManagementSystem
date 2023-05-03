@@ -1,9 +1,6 @@
 package com.example.ordermanagementsystem.mapper;
 
-import com.example.ordermanagementsystem.dataApiDto.ApiDtoOrderGet;
-import com.example.ordermanagementsystem.dataApiDto.ApiDtoOrderLineCreate;
-import com.example.ordermanagementsystem.dataApiDto.ApiDtoOrderLineGet;
-import com.example.ordermanagementsystem.dataApiDto.ApiDtoOrderLineGetIncludeOrder;
+import com.example.ordermanagementsystem.dataApiDto.*;
 import com.example.ordermanagementsystem.dataDomain.DomainOrder;
 import com.example.ordermanagementsystem.dataDomain.DomainOrderLine;
 import jakarta.validation.constraints.NotNull;
@@ -45,6 +42,17 @@ public class OrderLineMapper {
                 .productSKU(dto.getProductSKU())
                 .productId(dto.getProductId())
                 .orderId(dto.getOrderId())
+                .build();
+    }
+
+    public DomainOrderLine apiDtoCreateChildToDomain(ApiDtoOrderLineCreateChild dto, UUID orderId) {
+        return DomainOrderLine.builder()
+                .id(UUID.randomUUID())
+                .quantity(dto.getQuantity())
+                .productUnitPrice(dto.getProductUnitPrice())
+                .productSKU(dto.getProductSKU())
+                .productId(dto.getProductId())
+                .orderId(orderId)
                 .build();
     }
 }

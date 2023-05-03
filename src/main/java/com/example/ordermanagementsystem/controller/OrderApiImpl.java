@@ -4,6 +4,7 @@ import com.example.ordermanagementsystem.dataApiDto.ApiDtoOrderCreate;
 import com.example.ordermanagementsystem.dataApiDto.ApiDtoOrderGet;
 import com.example.ordermanagementsystem.dataApiDto.ApiDtoOrderGetIncludeOrderLines;
 import com.example.ordermanagementsystem.service.OrderService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -19,12 +20,13 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/order/")
-public class OrderApiImpl {
+public class OrderApiImpl implements OrderApi {
 
     private final OrderMapper orderMapper = new OrderMapper();
 
     private final OrderService orderService;
 
+    @Override
     @RequestMapping(value = "get-all", method = RequestMethod.GET)
     public ResponseEntity<List<ApiDtoOrderGet>> getOrders() {
         val domainOrders = orderService.getAll();
@@ -32,15 +34,29 @@ public class OrderApiImpl {
         return ResponseEntity.ok(dtoOrders);
     }
 
+    @Override
     @RequestMapping(value = "get", method = RequestMethod.GET)
     public ResponseEntity<ApiDtoOrderGet> getOrder(@RequestParam UUID id) {
         val domainOrder = orderService.get(id);
+        if (domainOrder == null) {
+            return ResponseEntity.notFound().build();
+        }
         val dtoOrder = orderMapper.domainToApiDto(domainOrder);
         return ResponseEntity.ok(dtoOrder);
     }
 
+    @Override
+    @RequestMapping(value = "get-include-order-line", method = RequestMethod.GET)
+    public ResponseEntity<ApiDtoOrderGetIncludeOrderLines> getOrderIncludeOrderLine(@RequestParam UUID id) {
+        val domainOrder = orderService.getIncludeOrderLines(id);
+        val dtoOrder = orderMapper.domainToApiDtoIncludeOrderLines(domainOrder);
+        return ResponseEntity.ok(dtoOrder);
+    }
+
+
+    @Override
     @RequestMapping(value = "create", method = RequestMethod.POST)
-    public ResponseEntity<ApiDtoOrderGet> createOrder(@RequestBody ApiDtoOrderCreate dto) {
+    public ResponseEntity<ApiDtoOrderGet> createOrder(@Valid  @RequestBody ApiDtoOrderCreate dto) {
         val domainOrder = orderMapper.apiDtoCreateToDomain(dto);
         val saveOrder = orderService.save(domainOrder);
         val saveOrderDto = orderMapper.domainToApiDto(saveOrder);
@@ -48,6 +64,7 @@ public class OrderApiImpl {
     }
 
 
+    @Override
     @RequestMapping(value = "get-orders-between-dates", method = RequestMethod.GET)
     public ResponseEntity<List<ApiDtoOrderGetIncludeOrderLines>> getOrdersBetweenDates(@RequestParam OffsetDateTime date1Inclusive, @RequestParam OffsetDateTime date2NonInclusive) {
         val domainOrders = orderService.getAllBetweenIncludeOrderLines(date1Inclusive, date2NonInclusive);
@@ -56,11 +73,10 @@ public class OrderApiImpl {
     }
 
 
+    @Override
     @RequestMapping(value = "mark-submitted", method = RequestMethod.PATCH)
     public ResponseEntity<ApiDtoOrderGet> markSubmitted(@RequestParam UUID id, @RequestParam OffsetDateTime submittedDate) {
-        val domainOrder = orderService.get(id);
-        domainOrder.setSubmittedDate(submittedDate);
-        val domainOrderAfterSaving = orderService.save(domainOrder);
+        val domainOrderAfterSaving = orderService.markSubmitted(id, submittedDate);
         val apiDtoOrderAfterSaving = orderMapper.domainToApiDto(domainOrderAfterSaving);
         return ResponseEntity.ok(apiDtoOrderAfterSaving);
     }

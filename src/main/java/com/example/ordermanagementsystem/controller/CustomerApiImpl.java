@@ -42,6 +42,9 @@ public class CustomerApiImpl implements CustomerApi {
     @RequestMapping(value = "get", method = RequestMethod.GET)
     public ResponseEntity<ApiDtoCustomerGet> getCustomer(@RequestParam UUID id) {
         val domain = customerService.get(id);
+        if (domain == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(customerMapper.domainToGetDto(domain));
     }
     @Override

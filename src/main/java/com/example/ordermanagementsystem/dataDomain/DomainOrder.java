@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import lombok.*;
 import lombok.experimental.FieldNameConstants;
+import org.hibernate.annotations.SelectBeforeUpdate;
 
 import java.time.OffsetDateTime;
 import java.util.*;
@@ -41,7 +42,7 @@ public class DomainOrder {
     private UUID customerId;
 
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", insertable = false, updatable = false)
     private DomainCustomer customer;
 
@@ -49,7 +50,8 @@ public class DomainOrder {
     // ---------------------- collection navigational (inverse) properties block ----------------------
 
     @OneToMany(
-            mappedBy = DomainOrderLine.Fields.order
+            mappedBy = DomainOrderLine.Fields.order,
+            cascade = CascadeType.PERSIST
     )
     @Builder.Default
     private Set<DomainOrderLine> orderLines = new HashSet<>();

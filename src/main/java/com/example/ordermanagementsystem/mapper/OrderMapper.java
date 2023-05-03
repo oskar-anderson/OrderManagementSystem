@@ -10,6 +10,7 @@ import lombok.val;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class OrderMapper {
 
@@ -32,10 +33,13 @@ public class OrderMapper {
     }
 
     public DomainOrder apiDtoCreateToDomain(ApiDtoOrderCreate dto) {
+        val orderLineMapper = new OrderLineMapper();
+        val orderId = UUID.randomUUID();
         return DomainOrder.builder()
-                .id(UUID.randomUUID())
+                .id(orderId)
                 .submittedDate(dto.getSubmittedDate())
                 .customerId(dto.getCustomerId())
+                .orderLines(dto.orderLines.stream().map(x -> orderLineMapper.apiDtoCreateChildToDomain(x, orderId)).collect(Collectors.toSet()))
                 .build();
     }
 }
